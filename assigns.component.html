@@ -1,0 +1,30 @@
+<main class = "container" *ngIf="formvisible===false">
+    <!-- <p>{{title}}</p> -->
+    <button class="addbtn" mat-flat-button color="accent" (click)="onAddBtnClick()">Add Assignment</button>
+
+    <!-- <div *ngFor="let assi of assignments"
+        [ngStyle] = "{'color' : assi.submitted ? 'red' : 'green'}"
+    > -->
+    <!-- <div *ngFor="let assi of assignments"
+        [ngClass] = "{'submitted' : assi.submitted === true, 'unsubmitted' : assi.submitted===false}"
+    > -->
+
+    <mat-list *ngFor="let assi of assignments">
+        <h3 mat-subheader>{{assi.dueDate | date}}</h3>
+        <mat-list-item (click)="setSelected(assi)">
+            <p appSubmitDirective *ngIf="assi.submitted; else unsubmitted">
+                Assignment {{assi.name}} has been submitted.
+            </p>
+
+            <ng-template #unsubmitted>
+                Assignment {{assi.name}} hasn't been submitted
+            </ng-template>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </mat-list>
+
+    <app-assignment-detail [passedAssignment]="selectedAssignment"></app-assignment-detail>
+
+</main>
+
+<app-add-assignment (newAss)="onNewAss($event)" *ngIf="formvisible"></app-add-assignment>
